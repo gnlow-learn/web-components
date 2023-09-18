@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<h1>1</h1>
+<counter- a="1">Hi</counter->
+<script>
+    customElements.define(
+        "counter-",
+        class extends HTMLElement {
+            constructor() {
+                super()
+            }
+            static observedAttributes = ["a"]
+            attributeChangedCallback(name, oldvalue, newValue) {
+                console.log(name, oldvalue, newValue)
+            }
+        }
+    )
+</script>
