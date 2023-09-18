@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <h1>1</h1>
-<counter- cnt="1">Hi</counter->
+<counter->Hi</counter->
 <script>
     customElements.define(
         "counter-",
         class extends HTMLElement {
             constructor() {
                 super()
+
                 const shadow = this.attachShadow({mode: "open"})
                 const plus = document.createElement("button")
                 plus.appendChild(document.createTextNode("+"))
@@ -14,18 +15,15 @@
                 const div = document.createElement("div")
                 shadow.appendChild(plus)
                 shadow.appendChild(div)
-            }
-            static observedAttributes = ["cnt"]
-            attributeChangedCallback(name, oldvalue, newValue) {
-                console.log(name, oldvalue, newValue)
-                const shadow = this.shadowRoot
-                shadow.querySelector("div").textContent = newValue
+                this.cnt = 1
             }
             get cnt() {
-                return this.getAttribute("cnt")
+                return this._cnt
             }
             set cnt(value) {
-                this.setAttribute("cnt", value)
+                this._cnt = value
+                const shadow = this.shadowRoot
+                shadow.querySelector("div").textContent = value
             }
         }
     )
