@@ -11,20 +11,53 @@
                 const shadow = this.attachShadow({mode: "open"})
                 const plus = document.createElement("button")
                 plus.appendChild(document.createTextNode("+"))
-                plus.addEventListener("click", () => this.cnt++)
-                const div = document.createElement("div")
                 shadow.appendChild(plus)
+                const div = document.createElement("div")
                 shadow.appendChild(div)
+                const div2 = document.createElement("div")
+                div2.setAttribute("id", "div2")
+                shadow.appendChild(div2)
+
+                this.isInit = true
+                this.vv = []
+                
                 this.cnt = 1
+                this.cnt2 = this.cnt * 2
+
+                this.isInit = false
+
+                plus.addEventListener("click", () => this.cnt++)
             }
             get cnt() {
+                if (this.isInit)
+                    this.vv.push("cnt")
                 return this._cnt
             }
             set cnt(value) {
+                if (this.isInit) {
+                    console.log("cnt <- ", this.vv)
+                    this.vv = []
+                }
                 this._cnt = value
-                const shadow = this.shadowRoot
-                shadow.querySelector("div").textContent = value
+                this.shadowRoot.querySelector("div").textContent = value
+            }
+            get cnt2() {
+                if (this.isInit)
+                    this.vv.push("cnt2")
+                return this._cnt2
+            }
+            set cnt2(value) {
+                if (this.isInit) {
+                    console.log("cnt2 <- ", this.vv)
+                    this.vv = []
+                }
+                this._cnt2 = value
+                this.shadowRoot.querySelector("#div2").textContent = value
             }
         }
+    )
+    ;(a, b) => (
+        b = a * 2,
+        a
     )
 </script>
