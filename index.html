@@ -2,6 +2,17 @@
 <h1>1</h1>
 <counter->Hi</counter->
 <script>
+    const getArgs = component => {
+        console.log(component.toString())
+        return (
+            /^\((.+?)\)/
+            .exec(component.toString())
+            ?.[1]
+            ?.split(", ")
+            || []
+        )
+    }
+    const gen = component =>
     customElements.define(
         "counter-",
         class extends HTMLElement {
@@ -20,11 +31,10 @@
 
                 this.isInit = true
                 this.vv = []
-                
-                this.cnt = 1
-                this.cnt2 = this.cnt * 2
 
-                this.isInit = false
+                component
+                (() => this.isInit = false)
+                ()
 
                 plus.addEventListener("click", () => this.cnt++)
             }
@@ -54,6 +64,13 @@
                 this._cnt2 = value
                 this.shadowRoot.querySelector("#div2").textContent = value
             }
+        }
+    )
+    gen(
+        $ =>
+        () => {
+            this.cnt = 1
+            $(this.cnt2 = this.cnt * 2)
         }
     )
     ;(a, b) => (
